@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipo de Fútbol de Niñas</title>
+
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: #333;
+        }
+        header {
+            background-color: #ff6b6b;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #ff6b6b;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .player-list {
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(244, 244, 244, 0.8);
+            border-radius: 5px;
+            color: #333;
+        }
+        .player-list strong {
+            display: block;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Equipo de Fútbol de Niñas</h1>
+</header>
+
+<div class="container mt-5">
+    <!-- Sección: Agregar Jugadora -->
+    <section>
+        <div class="card p-4 shadow-lg rounded">
+            <h2 class="text-center mb-4">Agregar Jugadora</h2>
+            <form id="formAgregarJugadora">
+                <div class="form-group">
+                    <input type="text" id="nombre" class="form-control mb-2" placeholder="Nombre de la jugadora">
+                </div>
+                <div class="form-group">
+                    <input type="number" id="edad" class="form-control mb-2" placeholder="Edad">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="posicion" class="form-control mb-2" placeholder="Posición">
+                </div>
+                <div class="form-group">
+                    <input type="number" id="numero" class="form-control mb-3" placeholder="Número de camiseta">
+                </div>
+                <button type="button" class="btn btn-danger btn-block" onclick="agregarJugadora()">Agregar</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Sección: Eliminar Jugadora -->
+    <section class="mt-5">
+        <div class="card p-4 shadow-lg rounded">
+            <h2 class="text-center mb-4">Eliminar Jugadora</h2>
+            <form id="formEliminarJugadora">
+                <div class="form-group">
+                    <input type="text" id="nombreEliminar" class="form-control mb-2" placeholder="Nombre de la jugadora a eliminar">
+                </div>
+                <button type="button" class="btn btn-danger btn-block" onclick="eliminarJugadora()">Eliminar</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Sección: Consultar Jugadoras -->
+    <section class="mt-5">
+        <div class="card p-4 shadow-lg rounded">
+            <h2 class="text-center mb-4">Lista de Jugadoras</h2>
+            <button type="button" class="btn btn-primary btn-block mb-3" onclick="consultarJugadoras()">Consultar Jugadoras</button>
+            <div class="player-list" id="listaJugadoras"></div>
+        </div>
+    </section>
+</div>
+
+<footer>
+    <p>&copy; 2024 Equipo de Fútbol de Niñas. Todos los derechos reservados.</p>
+</footer>
+
+<!-- Enlace a Bootstrap JS y Popper.js -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    let jugadoras = [];
+
+    function agregarJugadora() {
+        const nombre = document.getElementById('nombre').value.trim();
+        const edad = document.getElementById('edad').value.trim();
+        const posicion = document.getElementById('posicion').value.trim();
+        const numero = document.getElementById('numero').value.trim();
+
+        if (nombre && edad && posicion && numero && !jugadoras.some(j => j.nombre === nombre)) {
+            const jugadora = {
+                nombre,
+                edad,
+                posicion,
+                numero
+            };
+            jugadoras.push(jugadora);
+            document.getElementById('formAgregarJugadora').reset();
+            alert(`${nombre} ha sido agregada al equipo.`);
+        } else {
+            alert('Por favor, completa todos los campos correctamente o la jugadora ya existe.');
+        }
+    }
+
+    function eliminarJugadora() {
+        const nombreEliminar = document.getElementById('nombreEliminar').value.trim();
+        if (nombreEliminar && jugadoras.some(j => j.nombre === nombreEliminar)) {
+            jugadoras = jugadoras.filter(j => j.nombre !== nombreEliminar);
+            document.getElementById('formEliminarJugadora').reset();
+            alert(`${nombreEliminar} ha sido eliminada del equipo.`);
+        } else {
+            alert('Por favor, ingresa un nombre válido o la jugadora no existe.');
+        }
+    }
+
+    function consultarJugadoras() {
+        const lista = document.getElementById('listaJugadoras');
+        lista.innerHTML = '';
+        if (jugadoras.length > 0) {
+            lista.innerHTML = `<strong>Jugadoras en el equipo:</strong><br>${jugadoras.map(j => `${j.nombre} - Edad: ${j.edad}, Posición: ${j.posicion}, Número: ${j.numero}`).join('<br>')}`;
+        } else {
+            lista.innerHTML = 'No hay jugadoras en el equipo.';
+        }
+    }
+</script>
+
+</body>
+</html>
